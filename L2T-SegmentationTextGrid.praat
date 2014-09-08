@@ -343,6 +343,46 @@ procedure segmentation_textgrid
       # Print an error message.
       @segmentation_textgrid_error: .directory$, .participant_number$
     endif
+    
+  # When tagging burst events...
+  elif .activity$ == praat_activities.tag_burst$
+    # Set up the path to the [.directory$] of checked segmented TextGrids.
+    .directory$ = .experiment_directory$ + "/" +
+              ... "BurstTagging" + "/" +
+              ... "SegmentedTextGrids"
+    # Set up the string [.pattern$] used to find a checked segmented TextGrid.
+    .pattern$ = .directory$ + "/" +
+            ... .experimental_task$ + "_" +
+            ... .participant_number$ + "*" + "segm.TextGrid"
+    # Search for a checked segmented TextGrid using the [.pattern$]
+    @filename_from_pattern: .pattern$, "Segmented TextGrid"
+    if filename_from_pattern.filename$ <> ""
+      # Use the [.directory$] and [.filename$] strings to set up the path
+      # from which the checked segmented TextGrid is [.read_from$].
+      .read_from$ = .directory$ + "/" + filename_from_pattern.filename$
+      # Use the [.read_from$] path to determine the [participant]'s [.id$].
+      @participant: .read_from$, .participant_number$
+      # Parse the checker's [.initials$] from the path that the TextGrid was
+      # [.read_from$].
+      .checkers_initials$ = mid$(.read_from$, rindex(.read_from$, "_") + 1, 2)
+      # The [.write_to$] path is an empty string because any modifications to
+      # the checked segmented TextGrid that are made during turbulence tagging
+      # should be considered accidental and should not be saved.
+      .write_to$ = ""
+      # Read in the checked segmented TextGrid
+      printline Loading Checked Segmented TextGrid
+            ... 'filename_from_pattern.filename$' from '.directory$'
+      Read from file... '.read_from$'
+      Rename... 'participant.id$'_CheckedSegm'.checkers_initials$'
+      .praat_obj$ = selected$()
+    else
+      # Set all string constants to empty strings.
+      .read_from$ = ""
+      .write_to$  = ""
+      .praat_obj$ = ""
+      # Print an error message.
+      @segmentation_textgrid_error: .directory$, .participant_number$
+    endif
   endif
 endproc
 
