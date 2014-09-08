@@ -305,12 +305,11 @@ procedure segmentation_textgrid
 
 
   # When tagging turbulence events...
-  elif .activity$ == praat_activities.tag_turbulence$ |
-       ... .activity$ == praat_activities.tag_burst$
+  elif .activity$ == praat_activities.tag_turbulence$
     # Set up the path to the [.directory$] of checked segmented TextGrids.
     .directory$ = .experiment_directory$ + "/" +
-              ... "Segmentation" + "/" +
-              ... "TextGrids"
+              ... "TurbulenceTagging" + "/" +
+              ... "SegmentedTextGrids"
     # Set up the string [.pattern$] used to find a checked segmented TextGrid.
     .pattern$ = .directory$ + "/" +
             ... .experimental_task$ + "_" +
