@@ -304,8 +304,8 @@ procedure segmentation_textgrid
     endif
 
 
-  # When tagging turbulence events...
-  elif .activity$ == praat_activities.tag_turbulence$
+  # When tagging turbulence events or adding place-transcription to turbulence tags...
+  elif (.activity$ == praat_activities.tag_turbulence$ | .activity$ == praat_activities.add_place$)
     # Set up the path to the [.directory$] of checked segmented TextGrids.
     .directory$ = .experiment_directory$ + "/" +
               ... "TurbulenceTagging" + "/" +
