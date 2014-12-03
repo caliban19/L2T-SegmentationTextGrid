@@ -26,7 +26,7 @@ procedure segmentation_textgrid_tiers: .activity$
 	# Gather the string constants into a vector---which string constants are 
 	# gathered depends on the [.activity$].
 	@praat_activities
-	if .activity$ == praat_activities.segment$
+	if .activity$ == "Segment a recording"
 		.slot1$ = .trial$
  		.slot2$ = .word$
 		.slot3$ = .context$
@@ -40,7 +40,7 @@ procedure segmentation_textgrid_tiers: .activity$
 			.all_tiers$ = .all_tiers$ + " " + .slot'i'$
 		endfor
 		.point_tiers$ = .segm_notes$
-	elif .activity$ == praat_activities.check$
+	elif .activity$ == "Check a segmented TextGrid"
 		.slot1$  = .trial$
 		.slot2$  = .word$
 		.slot3$  = .context$
@@ -60,7 +60,7 @@ procedure segmentation_textgrid_tiers: .activity$
 			.all_tiers$ = .all_tiers$ + " " + .slot'i'$
 		endfor
 		.point_tiers$ = .segm_notes$ + " " + .check_notes$ + " " + .to_review$
-	elif .activity$ == praat_activities.transcribe$
+	elif .activity$ == "Transcribe a recording"
 		# Numeric and string constants for the Segmented TextGrid.
 		.trial       = 1
 		.trial$      = "Trial"
@@ -107,9 +107,9 @@ endproc
 procedure segmentation_log_is
 	.activity$ = session_parameters.activity$
 	@praat_activities
-	if .activity$ == praat_activities.segment$
+	if .activity$ == "Segment a recording"
 		.ready = 1
-	elif .activity$ == praat_activities.check$
+	elif .activity$ == "Check a segmented TextGrid"
 		# Check whether the Segmentation Log exists on the Praat Objects list.
 		.on_objects_list = segmentation_log.praat_obj$ <> ""
 		# Check whether the Segmentation Log has unchecked trials.
@@ -181,7 +181,7 @@ procedure segmentation_textgrid
 	# The behavior of the procedure depends primarily on the [.activity$].
 	@praat_activities
 
-	if .activity$ == praat_activities.segment$
+	if .activity$ == "Segment a recording"
 		# Set up the path to the segmenter's working [.directory$].
 		.directory$ = .experiment_directory$ + "/" +
 			... "Segmentation" + "/" + 
@@ -227,8 +227,8 @@ procedure segmentation_textgrid
 			endif
 		endif
 
- 	 # When checking a Segmented TextGrid...
-	elif .activity$ == praat_activities.check$
+	# When checking a Segmented TextGrid...
+	elif .activity$ == "Check a segmented TextGrid"
 		# Only load a Segmentation TextGrid if the [segmentation_log_is] [.ready]		@segmentation_log_is
 		if segmentation_log_is.ready
 			# Get the intials of the segmenter who segmented the TextGrid.
@@ -302,7 +302,7 @@ procedure segmentation_textgrid
 		endif
 
  	# When tagging turbulence events or adding place-transcription to turbulence tags...
-	elif (.activity$ == praat_activities.tag_turbulence$ | .activity$ == praat_activities.add_place$)
+	elif (.activity$ == "Tag turbulence events" | .activity$ == "Add place-transcription to RWR TP1 turbulence tags")
 		# Set up the path to the [.directory$] of checked segmented TextGrids.
  		.directory$ = .experiment_directory$ + "/" +
 			... "TurbulenceTagging" + "/" +
@@ -342,7 +342,7 @@ procedure segmentation_textgrid
 		endif
     
 	# When tagging burst events...
-	elif .activity$ == praat_activities.tag_burst$
+	elif .activity$ == "Tag burst events"
 		# Set up the path to the [.directory$] of checked segmented TextGrids.
 		.directory$ = .experiment_directory$ + "/" +
 			... "BurstTagging" + "/" +
@@ -381,7 +381,7 @@ procedure segmentation_textgrid
 			@segmentation_textgrid_error: .directory$, .participant_number$
 		endif
 
-	elif .activity$ == praat_activities.transcribe$
+	elif (.activity$ == "Transcribe a recording" | .activity$ == "Other")
 		# Set up the path to the [.directory$] of segmented TextGrids.
 		.directory$ = .experiment_directory$ + "/Segmentation/TextGrids"
 		.pattern$ = .directory$ + "/" +
