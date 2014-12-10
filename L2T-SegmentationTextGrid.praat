@@ -229,7 +229,8 @@ procedure segmentation_textgrid
 
 	# When checking a Segmented TextGrid...
 	elif .activity$ == "Check a segmented TextGrid"
-		# Only load a Segmentation TextGrid if the [segmentation_log_is] [.ready]		@segmentation_log_is
+		# Only load a Segmentation TextGrid if the [segmentation_log_is] [.ready]		
+        @segmentation_log_is
 		if segmentation_log_is.ready
 			# Get the intials of the segmenter who segmented the TextGrid.
 			@segmenters_initials: segmentation_log.read_from$
